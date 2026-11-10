@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PIXORA | اطلب خدمتك</title>
+<meta name="theme-color" content="#050a14">
+<link rel="manifest" href="site.webmanifest">
+<link rel="icon" href="p-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="p-apple.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PIXORA">
+<style>
+:root{--bg:#050a14;--panel:#0b1424;--line:#16284a;--blue:#2f7bff;--blue2:#59a0ff;--text:#eef3ff;--mute:#93a4c4}
+*{box-sizing:border-box;margin:0}
+body{background:radial-gradient(900px 500px at 50% -10%,rgba(47,123,255,.28),transparent 70%),var(--bg);color:var(--text);font-family:"Segoe UI","Noto Sans Arabic",Cairo,Tahoma,system-ui,sans-serif;line-height:1.7;padding:32px 20px;display:flex;justify-content:center}
+main{width:100%;max-width:520px;text-align:center}
+.brand{letter-spacing:.2em;font-weight:800;font-size:2rem}
+.tag{color:var(--blue2);font-size:.8rem;letter-spacing:.15em;margin-bottom:22px}
+h1{font-size:1.5rem;margin-bottom:6px}
+p.lead{color:var(--mute);margin-bottom:24px}
+.opts{display:grid;gap:10px;margin-bottom:18px}
+.opt{display:block;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--panel);cursor:pointer;font-weight:600;text-align:right}
+.opt:has(input:checked){border-color:var(--blue);background:rgba(47,123,255,.14)}
+.opt input{margin-inline-end:10px;accent-color:var(--blue)}
+input[type=text],input[type=tel]{width:100%;min-height:54px;padding:0 16px;margin-bottom:12px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;font-size:1rem}
+input:focus-visible,.opt:focus-within{outline:3px solid var(--blue2);outline-offset:2px}
+button{width:100%;min-height:56px;border:0;border-radius:16px;font:inherit;font-size:1.05rem;font-weight:700;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--blue),#1649c9);box-shadow:0 10px 30px rgba(47,123,255,.4)}
+.note{color:var(--mute);font-size:.9rem;margin-top:14px}
+.inst{margin-top:12px;background:var(--panel);border:1px solid var(--blue);box-shadow:none}
+.inst[hidden],.ios[hidden]{display:none}
+.ios{margin-top:14px;padding:14px;border:1px dashed var(--blue);border-radius:14px;color:var(--text);font-size:.95rem;text-align:right}
+.err{color:#ff8a8a;min-height:1.5em;margin-bottom:8px;font-size:.95rem}
+</style>
+</head>
+<body>
+<main>
+  <div class="brand">PIXORA</div>
+  <div class="tag">WEBSITES • QR • DIGITAL SOLUTIONS</div>
+  <h1>اطلب خدمتك من PIXORA</h1>
+  <p class="lead">اختار الخدمة اللي محتاجها، واكتب اسمك ورقم تليفونك، وهنكمل معاك على واتساب.</p>
+
+  <div class="opts" role="radiogroup" aria-label="الخدمة">
+    <label class="opt"><input type="radio" name="s" value="موقع إلكتروني لمطعم" checked>موقع إلكتروني لمطعم</label>
+    <label class="opt"><input type="radio" name="s" value="منيو QR Code">منيو QR Code</label>
+    <label class="opt"><input type="radio" name="s" value="متجر إلكتروني">متجر إلكتروني</label>
+    <label class="opt"><input type="radio" name="s" value="موقع حجوزات">موقع حجوزات</label>
+    <label class="opt"><input type="radio" name="s" value="خدمة أخرى / بناء موقع خاص">خدمة أخرى / بناء موقع خاص</label>
+  </div>
+
+  <input type="text" id="name" placeholder="اسمك" autocomplete="name">
+  <input type="tel" id="phone" placeholder="رقم تليفونك" autocomplete="tel" inputmode="tel">
+  <div class="err" id="err" role="alert"></div>
+  <button type="button" id="go">تأكيد الطلب عبر واتساب</button>
+  <button type="button" class="inst" id="inst" hidden>⬇ ثبّت التطبيق على هاتفك</button>
+  <div class="ios" id="ios" hidden>للتثبيت على iPhone: افتح الصفحة في Safari، اضغط زر المشاركة، ثم <b>إضافة إلى الشاشة الرئيسية</b>.</div>
+  <p class="note">بعد التأكيد هتفتح رسالة واتساب جاهزة ببياناتك وطلبك. راجعها واضغط إرسال.</p>
+</main>
+<script>
+// اكتب رقمك زي ما هو (من غير 20 ومن غير +)
+const MY_NUMBER = "01117211637";
+const WHATSAPP_NUMBER = "20" + MY_NUMBER.replace(/\D/g,'').replace(/^0+/,'');
+
+document.getElementById('go').addEventListener('click',()=>{
+  const name=document.getElementById('name').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  const err=document.getElementById('err');
+  if(!name||!phone){err.textContent='اكتب اسمك ورقم تليفونك الأول.';return;}
+  err.textContent='';
+  const service=document.querySelector('input[name=s]:checked').value;
+  const msg='السلام عليكم، أنا '+name+'\nرقمي: '+phone+'\nعايز أطلب: '+service;
+  location.href='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(msg);
+});
+
+let dp=null;const ib=document.getElementById('inst');
+const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;if(!standalone)ib.hidden=false;});
+ib.addEventListener('click',async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;ib.hidden=true;});
+addEventListener('appinstalled',()=>{ib.hidden=true;});
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!standalone)document.getElementById('ios').hidden=false;
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
